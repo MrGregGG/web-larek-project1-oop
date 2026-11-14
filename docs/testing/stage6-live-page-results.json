@@ -1,0 +1,15 @@
+{
+  "environment": "Linux Node 24.22.1 + jsdom 26.1.0; ordinary production HTML and main.js over HTTP, real server GET; not a browser/Windows",
+  "catalogCount": 10,
+  "status": "",
+  "requests": [
+    {
+      "url": "https://larek-api.nomoreparties.co/api/weblarek/product/",
+      "method": "GET"
+    }
+  ],
+  "errors": [],
+  "bundleBytes": 95463,
+  "bundleSha256": "1f80e62aa6f8140ae0c7ff13ed40bd212c368b9a97ff967ec0aa90205d19af39",
+  "passed": true
+}
