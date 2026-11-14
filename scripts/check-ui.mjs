@@ -20,6 +20,9 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const temporary = mkdtempSync(join(tmpdir(), 'web-larek-ui-'));
 const site = join(temporary, 'site');
 const keepServing = process.argv.includes('--serve');
+const suite = process.argv.includes('--stage5')
+	? 'checkout-ui.browser.mjs'
+	: 'ui.browser.mjs';
 const portOption = process.argv.find((argument) =>
 	argument.startsWith('--port=')
 );
@@ -57,7 +60,7 @@ try {
 		throw new Error('TypeScript-сборка стенда завершилась с ошибкой.');
 	mkdirSync(join(temporary, 'tests'));
 	copyFileSync(
-		join(root, 'tests/ui.browser.mjs'),
+		join(root, 'tests', suite),
 		join(temporary, 'tests/ui.browser.mjs')
 	);
 	const entry = join(temporary, 'entry.cjs');

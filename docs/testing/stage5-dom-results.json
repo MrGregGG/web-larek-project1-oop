@@ -1,0 +1,308 @@
+{
+  "environment": "Node.js 24.22.1 + jsdom 26.1.0, Linux; DOM emulation, not a real browser or Windows",
+  "testSuite": "tests/checkout-ui.browser.mjs",
+  "testSuiteSha256": "9ce00f4f01e3033e769808f3a124363e27d3402b7672a0bf460dff4095990c63",
+  "passed": 73,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Basket: исходный шаблон, render возвращает контейнер",
+      "passed": true
+    },
+    {
+      "name": "Basket: отображает переданные DOM-позиции в исходном порядке",
+      "passed": true
+    },
+    {
+      "name": "Basket: количество отображается по числу переданных позиций",
+      "passed": true
+    },
+    {
+      "name": "Basket: показывает переданную сумму и не пересчитывает товары",
+      "passed": true
+    },
+    {
+      "name": "Basket: понятное пустое состояние и количество 0",
+      "passed": true
+    },
+    {
+      "name": "Basket: пустая корзина не отправляет checkout:start даже при forced click",
+      "passed": true
+    },
+    {
+      "name": "Basket: pending блокирует оформление непустого списка",
+      "passed": true
+    },
+    {
+      "name": "Basket: оформление доступно для бесплатного товара",
+      "passed": true
+    },
+    {
+      "name": "Basket: 200 render не дублируют узлы или checkout:start",
+      "passed": true
+    },
+    {
+      "name": "Basket: переход заполненная/пустая/заполненная без старых позиций",
+      "passed": true
+    },
+    {
+      "name": "Basket: замена списка не уничтожает чужую View",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: номер, название, цена; render возвращает li",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: цена 0 отображается числом",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: название вставляется безопасным текстом",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: удаление сообщает ID и не удаляет DOM самостоятельно",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: после 200 render удаление использует последний ID",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: disabled запрещает удаление, в том числе forced click",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: наследует общий Form, возвращает исходный form",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: ввод передаётся точно, без trim/самостоятельной валидации",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: неизвестное имя input игнорируется",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: invalid блокирует submit и предотвращает навигацию",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: валидный submit отправляет одно намерение с пустым payload",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: pending блокирует поля и submit при valid",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: снятие pending восстанавливает ввод и submit",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: ошибки полей и сервера отображаются безопасным текстом",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: новые данные удаляют прежние ошибки и aria-invalid",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: render не генерирует события и не меняет входные данные",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: 200 render не дублируют input/submit",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: обратный render не сбрасывает курсор",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: поля и submit заблокированы до первого render",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: наследует общий Form, возвращает исходный form",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: ввод передаётся точно, без trim/самостоятельной валидации",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: неизвестное имя input игнорируется",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: invalid блокирует submit и предотвращает навигацию",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: валидный submit отправляет одно намерение с пустым payload",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: pending блокирует поля и submit при valid",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: снятие pending восстанавливает ввод и submit",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: ошибки полей и сервера отображаются безопасным текстом",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: новые данные удаляют прежние ошибки и aria-invalid",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: render не генерирует события и не меняет входные данные",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: 200 render не дублируют input/submit",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: обратный render не сбрасывает курсор",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: поля и submit заблокированы до первого render",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: значения адреса и выбранной оплаты восстанавливаются",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: cash и null заменяют предыдущий выбор без двух активных кнопок",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: обе кнопки публикуют прикладной payment без submit",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: pending блокирует обе оплаты даже при forced click",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: 200 render не дублируют события выбора оплаты",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: email и телефон отображаются точно из черновика",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: изменение телефона отправляет contacts:change",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: UI доверяет validate, не добавляя regex email/phone",
+      "passed": true
+    },
+    {
+      "name": "Success: выводит подтверждённую сумму, включая 0",
+      "passed": true
+    },
+    {
+      "name": "Success: 200 render и один клик дают только success:close",
+      "passed": true
+    },
+    {
+      "name": "Success: закрытие не очищает данные модели",
+      "passed": true
+    },
+    {
+      "name": "Basket: destroy идемпотентен, события сняты, render запрещён",
+      "passed": true
+    },
+    {
+      "name": "Basket: нет новых подписок при render, destroy снимает точные callback",
+      "passed": true
+    },
+    {
+      "name": "Basket: повторное создание на том же DOM оставляет одно событие",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: destroy идемпотентен, события сняты, render запрещён",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: нет новых подписок при render, destroy снимает точные callback",
+      "passed": true
+    },
+    {
+      "name": "BasketItem: повторное создание на том же DOM оставляет одно событие",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: destroy идемпотентен, события сняты, render запрещён",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: нет новых подписок при render, destroy снимает точные callback",
+      "passed": true
+    },
+    {
+      "name": "OrderForm: повторное создание на том же DOM оставляет одно событие",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: destroy идемпотентен, события сняты, render запрещён",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: нет новых подписок при render, destroy снимает точные callback",
+      "passed": true
+    },
+    {
+      "name": "ContactsForm: повторное создание на том же DOM оставляет одно событие",
+      "passed": true
+    },
+    {
+      "name": "Success: destroy идемпотентен, события сняты, render запрещён",
+      "passed": true
+    },
+    {
+      "name": "Success: нет новых подписок при render, destroy снимает точные callback",
+      "passed": true
+    },
+    {
+      "name": "Success: повторное создание на том же DOM оставляет одно событие",
+      "passed": true
+    },
+    {
+      "name": "Интеграция: модель корзины меняет сумму/количество, удаление сообщает актуальный ID",
+      "passed": true
+    },
+    {
+      "name": "Интеграция: OrderModel валидирует пробелы; два шага в Modal без HTTP и потери черновика",
+      "passed": true
+    },
+    {
+      "name": "Интеграция: ошибка/повтор/pending и Success проверяются контролируемым состоянием",
+      "passed": true
+    },
+    {
+      "name": "Изоляция: несколько экземпляров OrderForm не затрагивают чужой DOM",
+      "passed": true
+    }
+  ],
+  "jsdomErrors": [],
+  "controlledRequests": [
+    {
+      "url": "/__ui_results",
+      "method": "POST"
+    }
+  ]
+}
