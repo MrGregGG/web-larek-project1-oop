@@ -1,0 +1,79 @@
+{
+  "recorded_at_utc": "2026-11-14T14:57:06.583559+00:00",
+  "snapshot_date": "2026-11-14",
+  "real_get_observations": [
+    {
+      "url": "https://larek-api.nomoreparties.co/api/weblarek/product/",
+      "status": 200,
+      "date_header": "Sat, 14 Nov 2026 14:44:35 GMT",
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    },
+    {
+      "url": "https://larek-api.nomoreparties.co/api/weblarek/product/854cef69-976d-4c2a-a18c-2aa45046c390",
+      "status": 200,
+      "date_header": "Sat, 14 Nov 2026 14:45:06 GMT",
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    },
+    {
+      "url": "https://larek-api.nomoreparties.co/api/weblarek/product/no-such-product",
+      "status": 404,
+      "date_header": "Sat, 14 Nov 2026 14:45:06 GMT",
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    },
+    {
+      "url": "https://larek-api.nomoreparties.co/content/weblarek/5_Dots.svg",
+      "status": 200,
+      "date_header": "Sat, 14 Nov 2026 14:45:06 GMT",
+      "content_type": "image/svg+xml",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    },
+    {
+      "url": "https://larek-api.nomoreparties.co/api/docs",
+      "status": 404,
+      "date_header": "Sat, 14 Nov 2026 14:45:06 GMT",
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    },
+    {
+      "url": "https://larek-api.nomoreparties.co/api/docs-json",
+      "status": 404,
+      "date_header": "Sat, 14 Nov 2026 14:45:14 GMT",
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    },
+    {
+      "url": "https://larek-api.nomoreparties.co/openapi.json",
+      "status": 404,
+      "date_header": "Sat, 14 Nov 2026 14:45:13 GMT",
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    },
+    {
+      "url": "https://larek-api.nomoreparties.co/api/weblarek/order",
+      "status": 404,
+      "date_header": "Sat, 14 Nov 2026 14:45:13 GMT",
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "*",
+      "deployment": "vk-external-20261015"
+    }
+  ],
+  "provider_collection_url": "https://larek-api.nomoreparties.co/weblarek.postman.json",
+  "provider_collection_get_status": 200,
+  "fresh_order_posts_executed": 0,
+  "node_live_chain_tests": {
+    "passed": 2,
+    "failed": 0,
+    "catalog_count": 10
+  },
+  "note": "GET /order returned 404; this does not disprove POST /order documented by the provider."
+}

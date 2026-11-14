@@ -1,0 +1,55 @@
+{
+  "source": "https://larek-api.nomoreparties.co/weblarek.postman.json",
+  "classification": "Provider documentation examples; not newly submitted orders",
+  "base_url": "https://larek-api.nomoreparties.co/api/weblarek",
+  "request": {
+    "method": "POST",
+    "resource": "{{baseUrl}}/order",
+    "body": {
+      "payment": "online",
+      "email": "test@test.ru",
+      "phone": "+71234567890",
+      "address": "Spb Vosstania 1",
+      "total": 2200,
+      "items": [
+        "854cef69-976d-4c2a-a18c-2aa45046c390",
+        "c101ab44-ed99-4a54-990d-47aa2bb4e7d9"
+      ]
+    }
+  },
+  "documented_responses": [
+    {
+      "name": "Success",
+      "status": 200,
+      "body": {
+        "id": "28c57cb4-3002-4445-8aa1-2a06a5055ae5",
+        "total": 2200
+      }
+    },
+    {
+      "name": "Product not found",
+      "status": 400,
+      "body": {
+        "error": "Товар с id c101ab44-ed99-4a54-990d-47aa2bb4e7d не найден"
+      }
+    },
+    {
+      "name": "Wrong total",
+      "status": 400,
+      "body": {
+        "error": "Неверная сумма заказа"
+      }
+    },
+    {
+      "name": "No address",
+      "status": 400,
+      "body": {
+        "error": "Не указан адрес"
+      }
+    }
+  ],
+  "payment_values_confirmed_by_examples": [
+    "online"
+  ],
+  "complete_payment_enum_confirmed": false
+}
