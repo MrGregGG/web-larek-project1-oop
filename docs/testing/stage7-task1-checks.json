@@ -1,0 +1,71 @@
+{
+  "baselineCommit": "d677a089cc30117c002296d8aa35989a5f779ecf",
+  "environment": "Linux; Node.js v24.22.1; browser tests executed with jsdom 26.1.0, not Windows",
+  "checks": [
+    {
+      "command": "node node_modules/typescript/bin/tsc --noEmit --skipLibCheck",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/check-models.mjs",
+      "exitCode": 0,
+      "passed": 42,
+      "failed": 0
+    },
+    {
+      "command": "node scripts/check-shop-api.mjs",
+      "exitCode": 0,
+      "passed": 85,
+      "failed": 0
+    },
+    {
+      "command": "node node_modules/eslint/bin/eslint.js src/app.ts --max-warnings=0",
+      "exitCode": 0
+    },
+    {
+      "command": "node node_modules/eslint/bin/eslint.js tests/app.browser.mjs --env browser,node --max-warnings=0",
+      "exitCode": 0
+    },
+    {
+      "command": "node node_modules/prettier/bin-prettier.js src/app.ts tests/app.browser.mjs --check",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "webpackWarnings": 5,
+      "note": "Existing Sass deprecations and font asset/performance warnings"
+    },
+    {
+      "command": "node scripts/check-app.mjs --check-only",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 1,
+      "errors": 2,
+      "warnings": 4,
+      "files": [
+        "src/components/base/events.ts",
+        "src/utils/utils.ts"
+      ],
+      "note": "Both files are byte-identical to the baseline; existing findings were left unchanged"
+    }
+  ],
+  "files": {
+    "src/app.ts": {
+      "bytes": 11866,
+      "sha256": "8ae043ec2754672fd3cd716f4b7f64314ee9e0d7286dd626417cb3134f82f08e"
+    },
+    "tests/app.browser.mjs": {
+      "bytes": 27668,
+      "sha256": "62e78e90ac5eb3e61752abade64dc9b25d45885b33afe9ac968140e35ab933c4"
+    },
+    "dist/main.js": {
+      "bytes": 95607,
+      "sha256": "c6aa1753af03bf9cc915b8a9f236dd2c523412c842ad6d5692516848e75c4da2"
+    }
+  },
+  "externalOrderPosts": 0,
+  "windowsVerification": "Not executed for this fix; prior user confirmation covers the original 37/98/38 suites only"
+}

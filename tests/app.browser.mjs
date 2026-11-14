@@ -3,6 +3,7 @@ import { createApp } from '../src/app.js';
 import { EventEmitter } from '../src/components/base/events.js';
 import { ShopApi } from '../src/services/ShopApi.js';
 import { Page } from '../src/components/Page.js';
+import { Component } from '../src/components/base/Component.js';
 
 const source = document.body.innerHTML;
 const tests = [];
@@ -538,6 +539,133 @@ test('destroy: точные подписки сняты, внешние подп
 	equal(calls.gets.length, 1);
 	assert(!modal(root).classList.contains('modal_active'));
 	events.off('external', external);
+});
+test('destroy: исключение внешнего modal:closed не оставляет Page заблокированным', async () => {
+	const { root, app, events } = make();
+	await app.ready;
+	add(root);
+	close(root);
+	openBasket(root);
+	const oldCard = q(root, '.gallery .card');
+	const retry = q(root, '.page__retry');
+	const failure = new Error('Внешний подписчик modal:closed');
+	let shouldThrow = true;
+	let closed = 0;
+	const external = () => {
+		closed++;
+		if (shouldThrow) throw failure;
+	};
+	const emitted = [];
+	const observer = ({ eventName }) => emitted.push(eventName);
+	events.on('modal:closed', external);
+	events.onAll(observer);
+	cleanup.push(() => {
+		events.off('modal:closed', external);
+		events.off('*', observer);
+	});
+	let caught;
+	try {
+		app.destroy();
+	} catch (error) {
+		caught = error;
+	}
+	equal(caught, failure);
+	assert(!q(root, '.page__wrapper').classList.contains('page__wrapper_locked'));
+	assert(!modal(root).classList.contains('modal_active'));
+	assert(!root.contains(retry));
+	assert(events._events.get('modal:closed').has(external));
+	assert(events._events.get('*').has(observer));
+	equal(events._events.size, 2);
+	emitted.length = 0;
+	app.destroy();
+	oldCard.click();
+	openBasket(root);
+	retry.click();
+	deepEqual(emitted, []);
+	equal(closed, 1);
+
+	shouldThrow = false;
+	const second = createApp({
+		root,
+		events,
+		cdnUrl: 'https://cdn.example.test',
+		shopApi: {
+			getProducts: async () => ({ total: 4, items: products() }),
+			submitOrder: async () => ({ total: 100 }),
+		},
+	});
+	cleanup.push(() => second.destroy());
+	await second.ready;
+	equal(root.querySelectorAll('.page__retry').length, 1);
+	emitted.length = 0;
+	add(root);
+	equal(counter(root), '1');
+	equal(emitted.filter((name) => name === 'product:open').length, 1);
+	equal(emitted.filter((name) => name === 'basket:add').length, 1);
+	close(root);
+	equal(closed, 2);
+});
+test('destroy: все собственные View очищаются, первая ошибка сохраняется', async () => {
+	const { root, app, events } = make();
+	await app.ready;
+	add(root);
+	const first = new Error('Ошибка первой карточки');
+	const second = new Error('Ошибка modal:closed');
+	const external = () => {
+		throw second;
+	};
+	events.on('modal:closed', external);
+	cleanup.push(() => events.off('modal:closed', external));
+	const original = Component.prototype.destroy;
+	const destroyed = [];
+	Component.prototype.destroy = function () {
+		destroyed.push(this.constructor.name);
+		original.call(this);
+		if (destroyed.length === 1) throw first;
+	};
+	let caught;
+	try {
+		app.destroy();
+	} catch (error) {
+		caught = error;
+	} finally {
+		Component.prototype.destroy = original;
+	}
+	equal(caught, first);
+	deepEqual(destroyed, [
+		...Array(4).fill('CatalogCard'),
+		'BasketItem',
+		'ProductPreview',
+		'Basket',
+		'OrderForm',
+		'ContactsForm',
+		'Success',
+		'Modal',
+		'Page',
+	]);
+	app.destroy();
+	equal(destroyed.length, 12);
+});
+test('destroy: даже throw undefined передаётся после освобождения Page', async () => {
+	const { root, app, events } = make();
+	await app.ready;
+	openBasket(root);
+	const external = () => {
+		throw undefined;
+	};
+	events.on('modal:closed', external);
+	cleanup.push(() => events.off('modal:closed', external));
+	let thrown = false;
+	try {
+		app.destroy();
+	} catch (error) {
+		thrown = true;
+		equal(error, undefined);
+	}
+	assert(thrown);
+	assert(!q(root, '.page__wrapper').classList.contains('page__wrapper_locked'));
+	assert(!root.querySelector('.page__retry'));
+	app.destroy();
 });
 test('destroy во время GET: поздний ответ не обновляет модель/DOM', async () => {
 	const response = deferred();

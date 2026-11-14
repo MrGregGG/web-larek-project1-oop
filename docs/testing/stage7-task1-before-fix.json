@@ -1,0 +1,179 @@
+{
+  "environment": "Node.js 24.22.1 + jsdom 26.1.0, Linux; DOM emulation, not a real browser or Windows",
+  "testSuite": "tests/app.browser.mjs",
+  "testSuiteSha256": "0521011da8f602a82853d8c69100f0fc987e7ca603e2d6149c3b420f6a205859",
+  "passed": 37,
+  "failed": 3,
+  "results": [
+    {
+      "name": "Bootstrap: каталог автоматически загружается через ShopApi",
+      "passed": true
+    },
+    {
+      "name": "Категории: известная получает soft, неизвестная — other",
+      "passed": true
+    },
+    {
+      "name": "Изображения: путь разрешён относительно существующего CDN",
+      "passed": true
+    },
+    {
+      "name": "CatalogCard → ProductPreview: все поля и блокировка страницы",
+      "passed": true
+    },
+    {
+      "name": "Добавление: счётчик и Уже в корзине, дубль по событию исключён",
+      "passed": true
+    },
+    {
+      "name": "Товар без цены: кнопка disabled и событие не обходит модель",
+      "passed": true
+    },
+    {
+      "name": "Нулевая цена: товар можно оформить и подтвердить с total=0",
+      "passed": true
+    },
+    {
+      "name": "Корзина: список, сумма, удаление и переход в пустое состояние",
+      "passed": true
+    },
+    {
+      "name": "Пустая корзина: checkout:start не открывает форму",
+      "passed": true
+    },
+    {
+      "name": "Валидация: пробелы в адресе и пустая оплата не дают перейти дальше",
+      "passed": true
+    },
+    {
+      "name": "Ввод: обратный render сохраняет активное поле и курсор",
+      "passed": true
+    },
+    {
+      "name": "Контакты: пробельные поля не допускают отправку даже через шину",
+      "passed": true
+    },
+    {
+      "name": "Полный успех: online DTO, подтверждение, очистка, Success",
+      "passed": true
+    },
+    {
+      "name": "До подтверждения: корзина и данные сохранены, успех не показан",
+      "passed": true
+    },
+    {
+      "name": "Pending: два submit создают только один запрос",
+      "passed": true
+    },
+    {
+      "name": "Pending: события изменения/удаления/навигации игнорируются",
+      "passed": true
+    },
+    {
+      "name": "Ошибка HTTP: данные сохранены, кнопка разблокирована, ручной повтор успешен",
+      "passed": true
+    },
+    {
+      "name": "Сетевая ошибка POST: нет очистки и автоматического повторения",
+      "passed": true
+    },
+    {
+      "name": "Неправильное подтверждение сервера не очищает корзину",
+      "passed": true
+    },
+    {
+      "name": "cash: отказ до HTTP, нет ложного успеха и потери данных",
+      "passed": true
+    },
+    {
+      "name": "Закрытие во время POST: успех очищает данные, но не открывает окно",
+      "passed": true
+    },
+    {
+      "name": "Закрытие во время POST: ошибка сохранена и доступна при новом открытии",
+      "passed": true
+    },
+    {
+      "name": "Modal: внутренний клик не закрывает, overlay и крестик разблокируют страницу",
+      "passed": true
+    },
+    {
+      "name": "Повторное открытие и ввод: один клик даёт одно добавление",
+      "passed": true
+    },
+    {
+      "name": "GET: параллельные повторы не создают дополнительных запросов",
+      "passed": true
+    },
+    {
+      "name": "GET: ошибка, кнопка повторения и успешная загрузка без дублей",
+      "passed": true
+    },
+    {
+      "name": "GET: пустой список отображается отдельно от ошибки",
+      "passed": true
+    },
+    {
+      "name": "GET: некорректные данные не попадают в каталог",
+      "passed": true
+    },
+    {
+      "name": "Повторный каталог уничтожает старые карточки и не теряет корзину",
+      "passed": true
+    },
+    {
+      "name": "События вне своего экрана не начинают заказ или добавление",
+      "passed": true
+    },
+    {
+      "name": "destroy: точные подписки сняты, внешние подписчики сохранены",
+      "passed": true
+    },
+    {
+      "name": "destroy: исключение внешнего modal:closed не оставляет Page заблокированным",
+      "passed": false,
+      "error": "Error: Условие не выполнено\n    at assert (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:1811:20)\n    at eval (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:2371:2)\n    at async eval (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:2567:4)"
+    },
+    {
+      "name": "destroy: все собственные View очищаются, первая ошибка сохраняется",
+      "passed": false,
+      "error": "Error: [\"CatalogCard\"] !== [\"CatalogCard\",\"CatalogCard\",\"CatalogCard\",\"CatalogCard\",\"BasketItem\",\"ProductPreview\",\"Basket\",\"OrderForm\",\"ContactsForm\",\"Success\",\"Modal\",\"Page\"]\n    at assert (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:1811:20)\n    at equal (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:1814:2)\n    at deepEqual (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:1827:2)\n    at eval (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:2433:2)\n    at async eval (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:2567:4)"
+    },
+    {
+      "name": "destroy: даже throw undefined передаётся после освобождения Page",
+      "passed": false,
+      "error": "Error: Условие не выполнено\n    at assert (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:1811:20)\n    at eval (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:2467:2)\n    at async eval (eval at <anonymous> (/workspace/scratch/87c9f5083f87/stage6-dom-check.cjs:18:12), <anonymous>:2567:4)"
+    },
+    {
+      "name": "destroy во время GET: поздний ответ не обновляет модель/DOM",
+      "passed": true
+    },
+    {
+      "name": "destroy во время POST: поздний ответ не открывает окно и не шлёт изменения",
+      "passed": true
+    },
+    {
+      "name": "Page: retry скрыт по умолчанию, disabled защищён и destroy удаляет кнопку",
+      "passed": true
+    },
+    {
+      "name": "Page: пересоздание не оставляет две кнопки повторения",
+      "passed": true
+    },
+    {
+      "name": "Повторная сборка приложения на том же DOM после destroy",
+      "passed": true
+    },
+    {
+      "name": "Экран успеха закрывается без второй очистки моделей",
+      "passed": true
+    }
+  ],
+  "jsdomErrors": [],
+  "controlledRequests": [
+    {
+      "url": "/__ui_results",
+      "method": "POST"
+    }
+  ]
+}

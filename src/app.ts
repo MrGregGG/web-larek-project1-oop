@@ -361,7 +361,20 @@ export function createApp(options: AppOptions = {}) {
 		destroy(): void {
 			if (destroyed) return;
 			destroyed = true;
-			for (const unsubscribe of subscriptions) unsubscribe();
+			let failed = false;
+			let firstError: unknown;
+			const attempt = (dispose: () => void): void => {
+				try {
+					dispose();
+				} catch (error) {
+					if (!failed) {
+						failed = true;
+						firstError = error;
+					}
+				}
+			};
+			for (const unsubscribe of subscriptions) attempt(unsubscribe);
+			subscriptions.length = 0;
 			for (const view of [
 				...cards.values(),
 				...rows.values(),
@@ -373,9 +386,10 @@ export function createApp(options: AppOptions = {}) {
 				modal,
 				page,
 			])
-				view.destroy();
+				attempt(() => view.destroy());
 			cards.clear();
 			rows.clear();
+			if (failed) throw firstError;
 		},
 	};
 }
