@@ -1,8 +1,8 @@
 {
   "environment": "Node.js 24.22.1 + jsdom 26.1.0, Linux; DOM emulation, not a real browser or Windows",
   "testSuite": "tests/checkout-ui.browser.mjs",
-  "testSuiteSha256": "9ce00f4f01e3033e769808f3a124363e27d3402b7672a0bf460dff4095990c63",
-  "passed": 73,
+  "testSuiteSha256": "a997bb153e4495c5f2f9bd7f869d253710c8a398b6b39e3d4358adc4f6fe858f",
+  "passed": 98,
   "failed": 0,
   "results": [
     {
@@ -295,6 +295,106 @@
     },
     {
       "name": "Изоляция: несколько экземпляров OrderForm не затрагивают чужой DOM",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: использует #card-preview и возвращает исходный контейнер",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: категория, название, описание, изображение/alt и цена",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: текстовые поля и подпись кнопки не создают HTML",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: меняет все модификаторы категории без накопления",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: цена 0 отображается числом и позволяет добавление",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: null — Бесценно и disabled даже при buttonDisabled=false",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: переданный disabled блокирует покупаемый товар и forced click",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: повторный render включает и выключает кнопку/подпись",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: до первого render нет ID и нельзя добавить шаблонный товар",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: один клик отправляет только basket:add с payload { id }",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: клики по описанию, заголовку и контейнеру не добавляют товар",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: 200 render дают один basket:add с последним ID",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: render не публикует события и не изменяет входные данные",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: destroy идемпотентен, события сняты, render запрещён",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: один DOM-listener, render не подписывается, destroy снимает callback",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: повторное создание на том же DOM оставляет одно событие",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview + CatalogCard: общая шина, разные намерения, независимый DOM",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview + Modal: 100 открытий/закрытий не дублируют basket:add",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview + Modal: замена контента и явный destroy старой View",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: несколько экземпляров сохраняют собственный текущий ID",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: обновляет описание, src и alt без повторного добавления CDN",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: кнопка type=button не отправляет окружающую HTML-форму",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: destroy не снимает подписки общей шины и обработчики CatalogCard",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: отсутствие обязательной части шаблона обнаруживается сразу",
+      "passed": true
+    },
+    {
+      "name": "ProductPreview: после товара без цены новый товар полностью обновляет кнопку и цену",
       "passed": true
     }
   ],

@@ -5,6 +5,8 @@ import { Form } from '../src/components/base/Form.js';
 import { OrderForm } from '../src/components/OrderForm.js';
 import { ContactsForm } from '../src/components/ContactsForm.js';
 import { Success } from '../src/components/Success.js';
+import { ProductPreview } from '../src/components/ProductPreview.js';
+import { CatalogCard } from '../src/components/CatalogCard.js';
 import { Modal } from '../src/components/Modal.js';
 import { EventEmitter } from '../src/components/base/events.js';
 import { BasketModel } from '../src/models/BasketModel.js';
@@ -783,6 +785,336 @@ test('Изоляция: несколько экземпляров OrderForm не
 	assert(
 		select(second.root, '[name="cash"]').classList.contains('button_alt-active')
 	);
+});
+
+const previewData = (changes = {}) => ({
+	id: 'preview-one',
+	title: 'Подробный товар',
+	category: 'Тестовая категория',
+	categoryModifier: 'other',
+	image: window.__uiTestImage,
+	description: 'Описание тестового товара.',
+	price: 750,
+	buttonText: 'В корзину',
+	buttonDisabled: false,
+	...changes,
+});
+function makePreview(events) {
+	return make(ProductPreview, '#card-preview', events);
+}
+
+test('ProductPreview: использует #card-preview и возвращает исходный контейнер', () => {
+	const { view, root } = makePreview();
+	equal(view.render(previewData()), root);
+	assert(root.matches('.card.card_full'));
+	equal(root.tagName, 'DIV');
+});
+test('ProductPreview: категория, название, описание, изображение/alt и цена', () => {
+	const { view, root } = makePreview();
+	const data = previewData();
+	view.render(data);
+	equal(select(root, '.card__category').textContent, data.category);
+	equal(select(root, '.card__title').textContent, data.title);
+	equal(select(root, '.card__text').textContent, data.description);
+	equal(select(root, '.card__image').getAttribute('src'), data.image);
+	equal(select(root, '.card__image').alt, data.title);
+	equal(select(root, '.card__price').textContent, '750 синапсов');
+	equal(select(root, '.card__button').textContent, 'В корзину');
+});
+test('ProductPreview: текстовые поля и подпись кнопки не создают HTML', () => {
+	const { view, root } = makePreview();
+	const value = '<img src=x onerror=alert(1)>';
+	view.render(
+		previewData({
+			title: value,
+			category: value,
+			description: value,
+			buttonText: value,
+		})
+	);
+	for (const selector of [
+		'.card__title',
+		'.card__category',
+		'.card__text',
+		'.card__button',
+	]) {
+		equal(select(root, selector).textContent, value);
+		equal(select(root, selector).children.length, 0);
+	}
+	equal(root.querySelectorAll('img').length, 1);
+});
+test('ProductPreview: меняет все модификаторы категории без накопления', () => {
+	const { view, root } = makePreview();
+	const category = select(root, '.card__category');
+	category.classList.add('fixture-marker');
+	for (const categoryModifier of [
+		'soft',
+		'hard',
+		'other',
+		'additional',
+		'button',
+	]) {
+		view.render(previewData({ categoryModifier }));
+		equal(
+			Array.from(category.classList).filter((name) =>
+				name.startsWith('card__category_')
+			).length,
+			1
+		);
+		assert(category.classList.contains(`card__category_${categoryModifier}`));
+		assert(category.classList.contains('card__category'));
+		assert(category.classList.contains('fixture-marker'));
+	}
+});
+test('ProductPreview: цена 0 отображается числом и позволяет добавление', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(previewData({ price: 0 }));
+	equal(select(root, '.card__price').textContent, '0 синапсов');
+	assert(!select(root, '.card__button').disabled);
+	click(select(root, '.card__button'));
+	deepEqual(signals, [{ id: 'preview-one' }]);
+});
+test('ProductPreview: null — Бесценно и disabled даже при buttonDisabled=false', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(previewData({ price: null, buttonDisabled: false }));
+	equal(select(root, '.card__price').textContent, 'Бесценно');
+	assert(select(root, '.card__button').disabled);
+	click(select(root, '.card__button'));
+	forcedClick(select(root, '.card__button'));
+	equal(signals.length, 0);
+});
+test('ProductPreview: переданный disabled блокирует покупаемый товар и forced click', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(
+		previewData({ buttonDisabled: true, buttonText: 'Уже в корзине' })
+	);
+	const button = select(root, '.card__button');
+	assert(button.disabled);
+	equal(button.textContent, 'Уже в корзине');
+	click(button);
+	forcedClick(button);
+	equal(signals.length, 0);
+});
+test('ProductPreview: повторный render включает и выключает кнопку/подпись', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(previewData());
+	view.render(previewData({ buttonDisabled: true, buttonText: 'Подождите' }));
+	forcedClick(select(root, '.card__button'));
+	view.render(previewData({ id: 'ready', buttonText: 'Добавить' }));
+	equal(select(root, '.card__button').textContent, 'Добавить');
+	click(select(root, '.card__button'));
+	deepEqual(signals, [{ id: 'ready' }]);
+});
+test('ProductPreview: до первого render нет ID и нельзя добавить шаблонный товар', () => {
+	const { root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	assert(select(root, '.card__button').disabled);
+	forcedClick(select(root, '.card__button'));
+	equal(signals.length, 0);
+});
+test('ProductPreview: один клик отправляет только basket:add с payload { id }', () => {
+	const { view, root, events } = makePreview();
+	const signals = [];
+	listen(events, '*', (signal) => signals.push(signal));
+	view.render(previewData());
+	click(select(root, '.card__button'));
+	deepEqual(signals, [
+		{ eventName: 'basket:add', data: { id: 'preview-one' } },
+	]);
+});
+test('ProductPreview: клики по описанию, заголовку и контейнеру не добавляют товар', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(previewData());
+	click(root);
+	click(select(root, '.card__text'));
+	click(select(root, '.card__title'));
+	click(select(root, '.card__image'));
+	equal(signals.length, 0);
+});
+test('ProductPreview: 200 render дают один basket:add с последним ID', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	for (let i = 0; i < 200; i++)
+		view.render(previewData({ id: `preview-${i}` }));
+	click(select(root, '.card__button'));
+	deepEqual(signals, [{ id: 'preview-199' }]);
+});
+test('ProductPreview: render не публикует события и не изменяет входные данные', () => {
+	const { view, events } = makePreview();
+	const signals = [];
+	listen(events, '*', (signal) => signals.push(signal));
+	const data = Object.freeze(previewData());
+	const original = JSON.stringify(data);
+	view.render(data);
+	view.render(data);
+	equal(JSON.stringify(data), original);
+	equal(signals.length, 0);
+});
+test('ProductPreview: destroy идемпотентен, события сняты, render запрещён', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(previewData());
+	view.destroy();
+	view.destroy();
+	forcedClick(select(root, '.card__button'));
+	equal(signals.length, 0);
+	throws(() => view.render(previewData()));
+});
+test('ProductPreview: один DOM-listener, render не подписывается, destroy снимает callback', () => {
+	const root = mount(cloneTemplate('#card-preview'));
+	const button = select(root, '.card__button');
+	const added = [];
+	const removed = [];
+	const add = button.addEventListener;
+	const remove = button.removeEventListener;
+	button.addEventListener = function (type, handler, options) {
+		added.push({ type, handler });
+		return add.call(this, type, handler, options);
+	};
+	button.removeEventListener = function (type, handler, options) {
+		removed.push({ type, handler });
+		return remove.call(this, type, handler, options);
+	};
+	const view = own(new ProductPreview(root, new EventEmitter()));
+	for (let i = 0; i < 100; i++) view.render(previewData());
+	equal(added.length, 1);
+	equal(added[0].type, 'click');
+	view.destroy();
+	view.destroy();
+	equal(removed.length, 1);
+	equal(removed[0].type, added[0].type);
+	equal(removed[0].handler, added[0].handler);
+});
+test('ProductPreview: повторное создание на том же DOM оставляет одно событие', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(previewData());
+	view.destroy();
+	const replacement = own(new ProductPreview(root, events));
+	replacement.render(previewData({ id: 'replacement' }));
+	click(select(root, '.card__button'));
+	deepEqual(signals, [{ id: 'replacement' }]);
+});
+test('ProductPreview + CatalogCard: общая шина, разные намерения, независимый DOM', () => {
+	const events = new EventEmitter();
+	const catalog = make(CatalogCard, '#card-catalog', events);
+	const preview = makePreview(events);
+	const opened = observe(events, 'product:open');
+	const added = observe(events, 'basket:add');
+	catalog.view.render(previewData({ title: 'Каталог' }));
+	preview.view.render(previewData({ title: 'Подробности' }));
+	click(catalog.root);
+	click(select(preview.root, '.card__button'));
+	deepEqual(opened, [{ id: 'preview-one' }]);
+	deepEqual(added, [{ id: 'preview-one' }]);
+	equal(select(catalog.root, '.card__title').textContent, 'Каталог');
+	equal(select(preview.root, '.card__title').textContent, 'Подробности');
+});
+test('ProductPreview + Modal: 100 открытий/закрытий не дублируют basket:add', () => {
+	const events = new EventEmitter();
+	const preview = makePreview(events);
+	const modal = makeModal(events);
+	const signals = observe(events, 'basket:add');
+	preview.view.render(previewData());
+	for (let i = 0; i < 100; i++) {
+		modal.view.render({ content: preview.root });
+		modal.view.open();
+		modal.view.close();
+	}
+	modal.view.open();
+	click(select(preview.root, '.card__button'));
+	deepEqual(signals, [{ id: 'preview-one' }]);
+	assert(modal.root.contains(preview.root));
+	assert(modal.root.classList.contains('modal_active'));
+});
+test('ProductPreview + Modal: замена контента и явный destroy старой View', () => {
+	const events = new EventEmitter();
+	const first = makePreview(events);
+	const second = makePreview(events);
+	const modal = makeModal(events);
+	const signals = observe(events, 'basket:add');
+	first.view.render(previewData({ id: 'old' }));
+	second.view.render(previewData({ id: 'new' }));
+	modal.view.render({ content: first.root });
+	modal.view.open();
+	first.view.destroy();
+	modal.view.render({ content: second.root });
+	forcedClick(select(first.root, '.card__button'));
+	click(select(second.root, '.card__button'));
+	deepEqual(signals, [{ id: 'new' }]);
+	assert(!modal.root.contains(first.root));
+});
+test('ProductPreview: несколько экземпляров сохраняют собственный текущий ID', () => {
+	const events = new EventEmitter();
+	const first = makePreview(events);
+	const second = makePreview(events);
+	const signals = observe(events, 'basket:add');
+	first.view.render(previewData({ id: 'first' }));
+	second.view.render(previewData({ id: 'second' }));
+	click(select(first.root, '.card__button'));
+	click(select(second.root, '.card__button'));
+	deepEqual(signals, [{ id: 'first' }, { id: 'second' }]);
+});
+test('ProductPreview: обновляет описание, src и alt без повторного добавления CDN', () => {
+	const { view, root } = makePreview();
+	for (const image of [
+		'/local-test.svg',
+		'https://example.test/content/product.svg',
+	]) {
+		view.render(
+			previewData({ title: image, image, description: `Описание ${image}` })
+		);
+		equal(select(root, '.card__image').getAttribute('src'), image);
+		equal(select(root, '.card__image').alt, image);
+		equal(select(root, '.card__text').textContent, `Описание ${image}`);
+	}
+});
+test('ProductPreview: кнопка type=button не отправляет окружающую HTML-форму', () => {
+	const { view, root } = makePreview();
+	const form = mount(document.createElement('form'));
+	form.append(root);
+	let submits = 0;
+	form.addEventListener('submit', (event) => {
+		event.preventDefault();
+		submits++;
+	});
+	view.render(previewData());
+	equal(select(root, '.card__button').type, 'button');
+	click(select(root, '.card__button'));
+	equal(submits, 0);
+});
+test('ProductPreview: destroy не снимает подписки общей шины и обработчики CatalogCard', () => {
+	const events = new EventEmitter();
+	const catalog = make(CatalogCard, '#card-catalog', events);
+	const preview = makePreview(events);
+	const signals = observe(events, 'product:open');
+	catalog.view.render(previewData());
+	preview.view.render(previewData());
+	preview.view.destroy();
+	click(catalog.root);
+	deepEqual(signals, [{ id: 'preview-one' }]);
+});
+test('ProductPreview: отсутствие обязательной части шаблона обнаруживается сразу', () => {
+	const root = mount(cloneTemplate('#card-preview'));
+	select(root, '.card__text').remove();
+	throws(() => new ProductPreview(root, new EventEmitter()));
+});
+test('ProductPreview: после товара без цены новый товар полностью обновляет кнопку и цену', () => {
+	const { view, root, events } = makePreview();
+	const signals = observe(events, 'basket:add');
+	view.render(previewData({ price: null, buttonText: 'Недоступно' }));
+	view.render(
+		previewData({ id: 'free', price: 0, buttonText: 'Добавить бесплатно' })
+	);
+	equal(select(root, '.card__price').textContent, '0 синапсов');
+	equal(select(root, '.card__button').textContent, 'Добавить бесплатно');
+	click(select(root, '.card__button'));
+	deepEqual(signals, [{ id: 'free' }]);
 });
 
 (async () => {
