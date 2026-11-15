@@ -1,7 +1,8 @@
 // Хорошая практика даже простые типы выносить в алиасы
 // Зато когда захотите поменять это достаточно сделать в одном месте
 type EventName = string | RegExp;
-type Subscriber = Function;
+// Общая шина хранит разные payload; метод сохраняет совместимость typed on/off.
+type Subscriber = { handle(data: unknown): void }['handle'];
 type EmitterEvent = {
     eventName: string,
     data: unknown
@@ -40,7 +41,7 @@ export class EventEmitter implements IEvents {
      */
     off(eventName: EventName, callback: Subscriber) {
         if (this._events.has(eventName)) {
-            this._events.get(eventName)!.delete(callback);
+            this._events.get(eventName)?.delete(callback);
             if (this._events.get(eventName)?.size === 0) {
                 this._events.delete(eventName);
             }

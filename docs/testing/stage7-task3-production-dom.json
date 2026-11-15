@@ -1,0 +1,43 @@
+{
+  "environment": "Linux Node.js 24.22.1 + jsdom 26.1.0; actual production bundle over HTTP, DOM emulation, not a browser/Windows",
+  "bundleBytes": 95705,
+  "bundleSha256": "1f0160758bd208eb0dac087a54f612bb12415330795505e4950e7629fca02f11",
+  "passed": 8,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Обычный production entry запускает приложение и каталог",
+      "passed": true
+    },
+    {
+      "name": "Товар без цены нельзя добавить; товар не дублируется",
+      "passed": true
+    },
+    {
+      "name": "Полный сценарий: HTTP POST только тестовому серверу и очистка после подтверждения",
+      "passed": true
+    },
+    {
+      "name": "HTTP 500 сохраняет данные; ручной повтор завершается успехом",
+      "passed": true
+    },
+    {
+      "name": "cash отклоняется без HTTP и без ложного успеха",
+      "passed": true
+    },
+    {
+      "name": "Повторный submit в ожидании не создаёт второй POST",
+      "passed": true
+    },
+    {
+      "name": "Закрытие при ожидании не отменяет очистку и не переоткрывает Modal",
+      "passed": true
+    },
+    {
+      "name": "Некорректное подтверждение не очищает данные",
+      "passed": true
+    }
+  ],
+  "jsdomErrors": [],
+  "externalPostCount": 0
+}

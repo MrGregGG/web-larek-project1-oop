@@ -1,0 +1,131 @@
+{
+  "environment": "Linux; Node.js v24.22.1; jsdom 26.1.0; DOM emulation, not a browser or Windows",
+  "testSuite": "tests/base.browser.mjs",
+  "testSuiteSha256": "ebd8c42f3692e52e70e983a0e9e91e0643dbb37142ed11204d1fcf56103f200a",
+  "passed": 30,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Events: обычный подписчик получает исходный объект без копирования",
+      "passed": true
+    },
+    {
+      "name": "Events: неизвестное событие не вызывает обработчики",
+      "passed": true
+    },
+    {
+      "name": "Events: emit без payload передаёт undefined",
+      "passed": true
+    },
+    {
+      "name": "Events: порядок нескольких обработчиков и защита Set от дубля",
+      "passed": true
+    },
+    {
+      "name": "Events: off снимает только указанный callback",
+      "passed": true
+    },
+    {
+      "name": "Events: повторный off и неизвестный callback безопасны",
+      "passed": true
+    },
+    {
+      "name": "Events: отписка не снимает тот же callback с другого события",
+      "passed": true
+    },
+    {
+      "name": "Events: onAll получает envelope с eventName и исходным data",
+      "passed": true
+    },
+    {
+      "name": "Events: порядок wildcard/обычных определяется порядком подписки",
+      "passed": true
+    },
+    {
+      "name": "Events: off wildcard оставляет чужие wildcard и обычные подписки",
+      "passed": true
+    },
+    {
+      "name": "Events: RegExp подписка и отписка используют исходный экземпляр",
+      "passed": true
+    },
+    {
+      "name": "Events: состояние RegExp с флагом g сохранено",
+      "passed": true
+    },
+    {
+      "name": "Events: offAll очищает обычные, wildcard и RegExp подписки",
+      "passed": true
+    },
+    {
+      "name": "Events: trigger объединяет данные с приоритетом context без мутации",
+      "passed": true
+    },
+    {
+      "name": "Events: исключение подписчика передаётся и прерывает emit как прежде",
+      "passed": true
+    },
+    {
+      "name": "Events: добавленный во время emit callback вызывается в этом emit",
+      "passed": true
+    },
+    {
+      "name": "Events: удалённый во время emit следующий callback не вызывается",
+      "passed": true
+    },
+    {
+      "name": "Events: буквальное имя * сохраняет два прежних вызова подписчика",
+      "passed": true
+    },
+    {
+      "name": "Utils: isSelector/isEmpty принимают неизвестные значения без смены правил",
+      "passed": true
+    },
+    {
+      "name": "Utils: ensureElement сохраняет последний матч и предупреждение",
+      "passed": true
+    },
+    {
+      "name": "Utils: отсутствующий DOM-элемент даёт прежнюю явную ошибку",
+      "passed": true
+    },
+    {
+      "name": "Utils: ensureAllElements сохраняет selector, NodeList и исходный массив",
+      "passed": true
+    },
+    {
+      "name": "Utils: cloneTemplate глубоко копирует первый элемент без изменения шаблона",
+      "passed": true
+    },
+    {
+      "name": "Utils: cloneTemplate принимает selector существующего template",
+      "passed": true
+    },
+    {
+      "name": "Utils: пустой template обрабатывается до обращения к cloneNode",
+      "passed": true
+    },
+    {
+      "name": "Utils: только текст/комментарий template обрабатывается до обращения к cloneNode",
+      "passed": true
+    },
+    {
+      "name": "Utils: отсутствующий template сохраняет ошибку ensureElement",
+      "passed": true
+    },
+    {
+      "name": "Utils: getObjectProperties сохраняет фильтр и исключение constructor",
+      "passed": true
+    },
+    {
+      "name": "Utils: dataset конвертируется исходными функциями без изменения DOM",
+      "passed": true
+    },
+    {
+      "name": "Utils: фабрика DOM и строковые утилиты сохраняют результат",
+      "passed": true
+    }
+  ],
+  "jsdomErrors": [],
+  "externalOrderPosts": 0
+}

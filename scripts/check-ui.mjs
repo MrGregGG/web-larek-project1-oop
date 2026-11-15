@@ -20,7 +20,9 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const temporary = mkdtempSync(join(tmpdir(), 'web-larek-ui-'));
 const site = join(temporary, 'site');
 const keepServing = process.argv.includes('--serve');
-const suite = process.argv.includes('--stage6')
+const suite = process.argv.includes('--base')
+	? 'base.browser.mjs'
+	: process.argv.includes('--stage6')
 	? 'app.browser.mjs'
 	: process.argv.includes('--stage5')
 	? 'checkout-ui.browser.mjs'

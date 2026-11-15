@@ -1,0 +1,118 @@
+{
+  "baseHead": "7b1e18eb20f63e2b35a50f465a587b1530e2fdb6",
+  "currentHead": "7b1e18eb20f63e2b35a50f465a587b1530e2fdb6",
+  "branch": "integration/project1-stage6-app",
+  "environment": "Linux; Node.js v24.22.1; npm 11.9.0; jsdom 26.1.0 for DOM suites, not Windows/browser",
+  "before": {
+    "lintExitCode": 1,
+    "eslintErrors": 2,
+    "eslintWarnings": 4,
+    "strictTypeScriptExitCode": 2,
+    "diagnostic": "src/utils/utils.ts(49,12): TS18047 firstElementChild is possibly null",
+    "newBaseSuite": {
+      "passed": 28,
+      "failed": 2
+    }
+  },
+  "after": {
+    "lintExitCode": 0,
+    "eslintErrors": 0,
+    "eslintWarnings": 0,
+    "typeScriptExitCode": 0,
+    "strictTypeScriptExitCode": 0,
+    "typeFixtureExitCode": 0,
+    "newTestsAndRunnerEslintExitCode": 0,
+    "models": {
+      "passed": 42,
+      "failed": 0
+    },
+    "shopApi": {
+      "passed": 85,
+      "failed": 0
+    },
+    "baseDom": {
+      "passed": 30,
+      "failed": 0
+    },
+    "appDom": {
+      "passed": 40,
+      "failed": 0
+    },
+    "uiDom": {
+      "passed": 98,
+      "failed": 0
+    },
+    "productionDom": {
+      "passed": 8,
+      "failed": 0
+    },
+    "buildExitCode": 0,
+    "webpackWarnings": 5,
+    "checkAppExitCode": 0,
+    "gitDiffCheckExitCode": 0
+  },
+  "unchangedTrackedFileHashesCompared": 193,
+  "changedExistingFiles": [
+    "PROJECT_ARCHITECTURE.md",
+    "STAGE7_AUDIT_PLAN.md",
+    "scripts/check-ui.mjs",
+    "src/components/base/events.ts",
+    "src/utils/utils.ts"
+  ],
+  "protectedFiles": {
+    "src/app.ts": {
+      "bytes": 11866,
+      "sha256": "8ae043ec2754672fd3cd716f4b7f64314ee9e0d7286dd626417cb3134f82f08e",
+      "unchangedFromBase": true
+    },
+    "src/services/orderData.ts": {
+      "bytes": 2288,
+      "sha256": "8484c8c258f88fa62b051f870d88b8781bf79611dc9f7fd3246734c29d8bec1f",
+      "unchangedFromBase": true
+    },
+    "src/types/api.ts": {
+      "bytes": 897,
+      "sha256": "07ef6d25411b4bf6d5b9b6ddbbfa465e02e0d5316bf848d49cc060f02f69517a",
+      "unchangedFromBase": true
+    },
+    "src/types/index.ts": {
+      "bytes": 7709,
+      "sha256": "b883ffcd1a89a8f2ca7cdd0af7c6ec14ab7a2496146f745b55351361055d3eb2",
+      "unchangedFromBase": true
+    },
+    "package.json": {
+      "bytes": 1459,
+      "sha256": "17b3677cf10990a5d9d021ea31997f41cbd193f1c87b89a2f8cc8d2154472d22",
+      "unchangedFromBase": true
+    },
+    "package-lock.json": {
+      "bytes": 249863,
+      "sha256": "321468011aedebd00b1369fa374cbe311527776508710efd03e8b0bee9fe0c52",
+      "unchangedFromBase": true
+    },
+    "webpack.config.js": {
+      "bytes": 2404,
+      "sha256": "fd77c103db132bc8fb7cdc7b3a574b83a8c801634a39c582f407b545ac332c76",
+      "unchangedFromBase": true
+    },
+    ".babelrc": {
+      "bytes": 151,
+      "sha256": "136949d55ffe8100aa87b28ee2fb302de452146cceca6f14f75d322cf079cca4",
+      "unchangedFromBase": true
+    },
+    "tsconfig.json": {
+      "bytes": 284,
+      "sha256": "1e35c8420b3b274faa96267bbd13efc40eb2f19b3c67cede2e63e182650a8707",
+      "unchangedFromBase": true
+    }
+  },
+  "productionBundle": {
+    "bytes": 95705,
+    "sha256": "1f0160758bd208eb0dac087a54f612bb12415330795505e4950e7629fca02f11"
+  },
+  "shopPostRequests": 0,
+  "newCommits": 0,
+  "pushes": 0,
+  "newWindowsVerification": "not performed; user confirmation applies to baseline task 1 only",
+  "indexEmpty": true
+}
